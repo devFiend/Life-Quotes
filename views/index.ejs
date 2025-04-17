@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Life Quote</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Random Life Quote</h1>
+
+  <div id="loader" style="display:none; margin-top: 10px;">⏳ Fetching new quote...</div>
+
+  <blockquote id="quote">
+    "<%= result.content %>"
+    <footer>– <%= result.author %></footer>
+  </blockquote>
+
+  <div class="buttons">
+    <!-- Copy Button -->
+<button id="copyBtn" title="Copy Quote">
+    📋
+  </button>
+  
+  <!-- Refresh Button -->
+  <form action="/quote" method="POST" onsubmit="showLoader()">
+    <button type="submit" title="New Quote">
+      🔄
+    </button>
+  </form>  
+    
+  </div>
+  
+
+    
+<script>
+    const quoteEl = document.getElementById("quote");
+    const copyBtn = document.getElementById("copyBtn");
+  
+    copyBtn.addEventListener("click", () => {
+  const quoteText = quoteEl.textContent;
+  navigator.clipboard.writeText(quoteText)
+    .then(() => {
+      copyBtn.textContent = "✅";
+      setTimeout(() => copyBtn.textContent = "📋", 1500);
+    })
+    .catch(err => {
+      alert("Copy failed");
+      console.error(err);
+    });
+});
+
+    function showLoader() {
+  const quoteEl = document.getElementById("quote");
+  const loader = document.getElementById("loader");
+
+  quoteEl.style.display = "none"; // Hide quote
+  loader.style.display = "block"; // Show loader
+}
+
+
+  </script>
+
+</body>
+</html>
