@@ -18,20 +18,22 @@ app.get("/", async (req, res) => {
         res.render("index.ejs", { result: result });
     } catch (error) {
         console.error("Failed to make request:", error.message);
-        
-    }});
+        res.status(500).send("Failed to fetch quote.");
+    }
+});
 
-    app.post("/quote", async (req, res) => {
-        try {
-            const response = await axios.get("http://api.quotable.io/quotes/random");
-            const result = response.data[0];
-            console.log(result);
-            res.render("index.ejs", { result: result });
-        } catch (error) {
-            console.error("Failed to make request:", error.message);
-        }
-    });
+app.post("/quote", async (req, res) => {
+    try {
+        const response = await axios.get("http://api.quotable.io/quotes/random");
+        const result = response.data[0];
+        console.log(result);
+        res.render("index.ejs", { result: result });
+    } catch (error) {
+        console.error("Failed to make request:", error.message);
+        res.status(500).send("Failed to fetch quote.");
+    }
+});
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
